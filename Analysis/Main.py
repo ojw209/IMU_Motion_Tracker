@@ -23,7 +23,7 @@ from scipy import signal
 #Import local packages.
 from Data_In import File_read
 from Quat_Func import eul_to_quat,quat_to_eul,quat_conj,quat_prod,axisangle_to_q,normalize
-from IMU_Plotting import Angle_Plots,Position_Plots
+from IMU_Plotting import Angle_Plots,Position_Plots,ThreeD_plot
 
 
 
@@ -134,3 +134,4 @@ for i in range(line_count):
 
 Angle_Plots(RolPitYaw_n,t)
 Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t )
+ThreeD_plot(Pos_n_f)

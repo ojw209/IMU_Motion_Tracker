@@ -128,7 +128,9 @@ for i in range(line_count):
         Pos_n[i,j] = np.trapz(Vel_n[0:i,j],dx = 1/30)  
         Pos_n_f[i,j] = np.trapz(Vel_n_f[0:i,j],dx = 1/30)
 
-
+Pos_n_f[...,0] = signal.detrend(Pos_n_f[...,0]) 
+Pos_n_f[...,1] = signal.detrend(Pos_n_f[...,1])  
+Pos_n_f[...,2] = signal.detrend(Pos_n_f[...,2])     
 
 
 

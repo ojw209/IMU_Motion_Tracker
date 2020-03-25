@@ -22,6 +22,8 @@ def Angle_Plots(RolPitYaw_n,t):
     yx.plot(t,RolPitYaw_n[...,1], label='y-Axis')
     zx.plot(t,RolPitYaw_n[...,2], label='z-Axis')
     
+    fig.suptitle("Measured Angle", fontsize=14)
+    
     
 def Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t):
     fig_2 = plt.figure(figsize=plt.figaspect(0.5))
@@ -41,6 +43,8 @@ def Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t):
     yx_f.plot(t,Accel_n_f[...,1])
     zx_f.plot(t,Accel_n_f[...,2])
     
+    fig_2.suptitle("XYZ Acceleration: Raw vs Filtered and Detrended", fontsize=14)
+    
     fig_3 = plt.figure(figsize=plt.figaspect(0.5))
     xx = fig_3.add_subplot(2, 3, 1)
     yx = fig_3.add_subplot(2, 3, 2)
@@ -58,6 +62,8 @@ def Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t):
     yx_f.plot(t,Vel_n_f[...,1])
     zx_f.plot(t,Vel_n_f[...,2])
     
+    fig_3.suptitle("XYZ Velocity: Raw vs Filtered and Detrended", fontsize=14)
+    
     fig_4 = plt.figure(figsize=plt.figaspect(0.5))
     xx = fig_4.add_subplot(2, 3, 1)
     yx = fig_4.add_subplot(2, 3, 2)
@@ -74,6 +80,8 @@ def Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t):
     xx_f.plot(t,Pos_n_f[...,0])
     yx_f.plot(t,Pos_n_f[...,1])
     zx_f.plot(t,Pos_n_f[...,2])
+    
+    fig_4.suptitle("XYZ Position: Raw vs Filtered and Detrended", fontsize=14)
     
 def ThreeD_plot(XYZ):
     ax3d = plt.axes(projection='3d')

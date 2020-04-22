@@ -8,7 +8,6 @@ Let b be the body frame, n be the navigation frame and w be the world frame.
 '''
 
 import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
 
 def Angle_Plots(RolPitYaw_n,t):
     plt.close('all')
@@ -86,4 +85,3 @@ def Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t):
 def ThreeD_plot(XYZ):
     ax3d = plt.axes(projection='3d')
     ax3d.scatter3D(XYZ[...,0],XYZ[...,1],XYZ[...,2])
-    

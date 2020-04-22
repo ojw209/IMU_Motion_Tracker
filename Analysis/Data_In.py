@@ -27,8 +27,9 @@ def File_read(File_Name):
         for row in CSV_Rows:
             RolPitYaw_b[line_count] = row[1:4]
             RolPitYaw_dt_b[line_count] = row[4:7]
-            Accel_b[line_count] = row[7:10]
+            Accel_b[line_count] =  row[7:10]
             Magnet_b[line_count] = row[10:13]
             line_count += 1
-
+    
+    print('Read In Complete')
     return RolPitYaw_b, RolPitYaw_dt_b, Accel_b, Magnet_b,line_count

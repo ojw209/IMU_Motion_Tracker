@@ -11,7 +11,7 @@ import math
 
 
 def eul_to_quat(RolPitYaw):
-        roll, pitch, yaw = RolPitYaw[:,0], RolPitYaw[:,1], RolPitYaw[:,2]
+        roll, pitch, yaw = RolPitYaw[0], RolPitYaw[1], RolPitYaw[2]
 
         qx = np.sin(roll/2) * np.cos(pitch/2) * np.cos(yaw/2) - np.cos(roll/2) * np.sin(pitch/2) * np.sin(yaw/2)
         qy = np.cos(roll/2) * np.sin(pitch/2) * np.cos(yaw/2) + np.sin(roll/2) * np.cos(pitch/2) * np.sin(yaw/2)
@@ -26,20 +26,24 @@ def quat_to_eul(Quat):
     
     t0 = +2.0 * (w * x + y * z)
     t1 = +1.0 - 2.0 * (x * x + y * y)
-    roll = math.atan2(t0, t1)
-    t2 = +2.0 * (w * y - z * x)
+    roll = math.degrees(math.atan2(t0, t1))
     
+    t2 = +2.0 * (w * y - z * x)  
     t2 = +1.0 if t2 > +1.0 else t2
     t2 = -1.0 if t2 < -1.0 else t2
-    pitch = math.asin(t2)
+    pitch = math.degrees(math.asin(t2))
+    
     t3 = +2.0 * (w * z + x * y)
     t4 = +1.0 - 2.0 * (y * y + z * z)
-    yaw = math.atan2(t3, t4)
+    yaw = math.degrees(math.atan2(t3, t4))
     
     return np.stack((roll,pitch,yaw), axis=-1)
 
-def quat_conj(qx,qy,qz,qw):
-    
+def quat_conj(quaternion):
+    qx = quaternion[0]
+    qy = quaternion[1]
+    qz = quaternion[2]
+    qw = quaternion[3]
     return[qx,-qy,-qz,-qw]
     
 def quat_prod(quat_1, quat_0):
@@ -52,16 +56,12 @@ def quat_prod(quat_1, quat_0):
                      x1 * y0 - y1 * x0 + z1 * w0 + w1 * z0])
 
 # https://stackoverflow.com/questions/4870393/rotating-coordinate-system-via-a-quaternion
-def axisangle_to_q(v, theta):
-    v = normalize(v)
-    x, y, z = v
-    theta /= 2
-    w = np.cos(theta)
-    x = x * np.sin(theta)
-    y = y * np.sin(theta)
-    z = z * np.sin(theta)
-    return w, x, y, z
-
+def quat_Rot_By_Angle(Vector,quat_0):
+    Vector = np.array([0, Vector[0],Vector[1],Vector[2]])
+    Vector_t = quat_prod(quat_prod(quat_0,Vector),quat_conj(quat_0))
+    
+    return Vector_t[1:4]
+    
 def normalize(v, tolerance=0.00001):
     mag2 = sum(n * n for n in v)
     if abs(mag2 - 1.0) > tolerance:
@@ -100,3 +100,18 @@ def normalize(v, tolerance=0.00001):
 
 
 '''
+
+def ROT_FRAME_CHANGE(ANGLE_B_1):
+    psi,theta,phi = np.deg2rad(ANGLE_B_1[0]),np.deg2rad(ANGLE_B_1[1]),np.deg2rad(ANGLE_B_1[2])
+    R_bn = np.array([[math.cos(theta)*math.cos(psi),\
+                     math.cos(theta)*math.sin(psi),\
+                     -math.sin(theta)], \
+                     [math.sin(phi)*math.sin(theta)*math.cos(psi) - math.cos(phi)*math.sin(psi),\
+                      math.sin(phi)*math.sin(theta)*math.sin(psi) + math.cos(phi)*math.cos(psi),\
+                      math.sin(phi)*math.cos(theta)], \
+                      [math.cos(phi)*math.sin(theta)*math.cos(psi) + math.sin(phi)*math.sin(psi),\
+                      math.cos(phi)*math.sin(theta)*math.sin(psi) - math.sin(phi)*math.cos(psi),\
+                      math.cos(phi)*math.cos(theta)]
+                      ])
+    return R_bn
+

@@ -51,11 +51,12 @@ wd= os.path.dirname(os.path.dirname(os.path.abspath("__file__")))
 os.chdir(wd)
 
 #Set path and directory. [Need's to be tested for portability.]
-FILE_Path = 'Raw_Data/IMU_3.CSV'
+FILE_Path = 'Raw_Data/IMU.CSV'
 
 #Read in data.
 RolPitYaw_b, RolPitYaw_dt_b, Accel_b, Magnet_b,line_count = File_read(FILE_Path)
 
+line_count = 2000
 
 #Define time vector [Needs correcting.]
 t = np.array((range(line_count)))
@@ -95,8 +96,10 @@ for i in range(line_count):
     r3 = r2*r1
     
     RolPitYaw_n[i,...] = r3.apply(RolPitYaw_b[i,...])
-    Accel_n[i,...] = r3.apply(Accel_b[i,...]) - np.array([0,0,9.81])
-    
+    Accel_n[i,...] = r3.apply(Accel_b[i,...]) - np.array([0,0,.00981])
+    if (i % 1000 == 0):
+     print(i)
+     
 
 ##Butter Worth Filter
 # Filter requirements.
@@ -136,4 +139,4 @@ Pos_n_f[...,2] = signal.detrend(Pos_n_f[...,2])
 
 Angle_Plots(RolPitYaw_n,t)
 Position_Plots(Accel_n,Accel_n_f,Vel_n,Vel_n_f,Pos_n,Pos_n_f,t )
-ThreeD_plot(Pos_n_f)
+#ThreeD_plot(Pos_n_f)

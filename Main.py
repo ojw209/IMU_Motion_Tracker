@@ -120,12 +120,10 @@ IMU_Graphing.Mag_Spec_Plot(RAW_POSEST,Freq,'Mag Spec - Pose')
 But_Accel_N,RAW_POSEST = ROTATE.Rotate(But_Accel_N,RAW_POSEST,Line_count,Time_s)
 
 # %% Trapezoidal Integration for position.
-
-
 But_Vel_N = integrate.cumtrapz(But_Accel_N[1000:,...],axis = 0,dx = 1/Freq)
 But_Vel_N = detrend(But_Vel_N,axis = 0)
 But_Pos_N = integrate.cumtrapz(But_Vel_N,axis = 0,dx = 1/Freq)
 
 IMU_Graphing.Plot_Raw_Split(But_Accel_N[1000:,...],Time_s[1000:],'Post Filtered Accel')
-IMU_Graphing.Plot_Raw_Split(But_Vel_N*.5,Time_s[1001:],'Post Double Integration (Pos)')
+IMU_Graphing.Plot_Raw_Split(But_Vel_N,Time_s[1001:],'Post Double Integration (Pos)')
 IMU_Graphing.Plot_Raw_Split(But_Pos_N,Time_s[1002:],'Post Double Integration (Pos)')
